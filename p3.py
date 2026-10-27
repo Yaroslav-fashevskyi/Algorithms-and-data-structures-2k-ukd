@@ -27,20 +27,25 @@ def bubble_sort(array, direction):
 
     arr = array.copy()
     n = len(arr)
+    isSwapped = True
 
     for i in range(n - 1):
-
+        isSwapped = False
         for j in range(n - 1 - i):
 
             if direction:
                 # За зростанням
                 if arr[j] > arr[j + 1]:
                     arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                    isSwapped = True
 
             else:
                 # За спаданням
                 if arr[j] < arr[j + 1]:
                     arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                    isSwapped = True
+        if not isSwapped:
+            break
 
     return arr
 

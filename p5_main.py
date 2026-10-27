@@ -64,44 +64,45 @@ def is_sorted(array, direction):
 def compare_sorts(sizes=(1_000, 10_000, 100_000)):
     algorithms = [
         ("QuickSort", quick_sort),
-        ("Bubble Sort", bubble_sort),
-        ("Insertion Sort", insertion_sort),
-        ("Selection Sort", selection_sort)
+        ("Bubble Sort", bubble_sort)
+        # ("Insertion Sort", insertion_sort),
+        # ("Selection Sort", selection_sort)
     ]
 
     random.seed(42)
 
     for size in sizes:
-        numbers = [round(random.uniform(-1000, 1000), 2) for i in range(size)]
+        numbers = sorted([round(random.uniform(-10000, 10000), 2) for i in range(size)])
         print(f"\nМасив: {size:,} елементів".replace(",", " "))
 
-        for direction in (True, False):
-            direction_name = "за зростанням" if direction else "за спаданням"
-            print(f"\n{direction_name.capitalize()}")
-            print(f"{'Алгоритм':<18} {'Час (с)':>12} {'Перевірка':>10}")
-            print("-" * 42)
+        # for direction in (True, False):
+        direction = True
+        direction_name = "за зростанням" # if direction else "за спаданням"
+        print(f"\n{direction_name.capitalize()}")
+        print(f"{'Алгоритм':<18} {'Час (с)':>12} {'Перевірка':>10}")
+        print("-" * 42)
 
-            expected = sorted(numbers, reverse=not direction)
+        expected = sorted(numbers, reverse=not direction)
 
-            for name, sort_function in algorithms:
-                print(f"{name:<18} ", end="", flush=True)
+        for name, sort_function in algorithms:
+            print(f"{name:<18} ", end="", flush=True)
 
-                start = time.perf_counter()
-                result = sort_function(numbers, direction)
-                seconds = time.perf_counter() - start
+            start = time.perf_counter()
+            result = sort_function(numbers, direction)
+            seconds = time.perf_counter() - start
 
-                correct = is_sorted(result, direction) and result == expected
-                status = "OK" if correct else "ПОМИЛКА"
-                print(f"{seconds:>12.3f} {status:>10}", flush=True)
+            correct = is_sorted(result, direction) and result == expected
+            status = "OK" if correct else "ПОМИЛКА"
+            print(f"{seconds:>12.3f} {status:>10}", flush=True)
 
 
 if __name__ == "__main__":
-    numbers = [3.14, -2.5, 0, 9.4, 3.14, -7.125]
-
-    print("Приклад сортування:")
-    print("Початковий масив:", numbers)
-    print("За зростанням:   ", quick_sort(numbers, True))
-    print("За спаданням:    ", quick_sort(numbers, False))
+    # numbers = [3.14, -2.5, 0, 9.4, 3.14, -7.125]
+    #
+    # print("Приклад сортування:")
+    # print("Початковий масив:", numbers)
+    # print("За зростанням:   ", quick_sort(numbers, True))
+    # print("За спаданням:    ", quick_sort(numbers, False))
 
     print("\nПорівняння часу сортування:")
     compare_sorts()
