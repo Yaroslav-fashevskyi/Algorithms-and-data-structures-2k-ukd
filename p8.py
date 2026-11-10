@@ -5,11 +5,14 @@ class Node:
         self.right = None
 
 
+
 class BinaryTree:
     def __init__(self):
         self.root = None
+        self.cnt = 0
 
     def insert(self, value):
+        self.cnt = self.cnt + 1
         if self.root is None:
             self.root = Node(value)
             return
@@ -26,6 +29,7 @@ class BinaryTree:
                     current.right = Node(value)
                     return
                 current = current.right
+
 
     def search(self, value):
         current = self.root
@@ -44,11 +48,13 @@ class BinaryTree:
     def _delete(self, node, value):
         if node is None:
             return None
+
         if value < node.value:
             node.left = self._delete(node.left, value)
         elif value > node.value:
             node.right = self._delete(node.right, value)
         else:
+            self.cnt = self.cnt - 1
             if node.left is None:
                 return node.right
             if node.right is None:
@@ -59,6 +65,8 @@ class BinaryTree:
                 replacement = replacement.left
             node.value = replacement.value
             node.right = self._delete(node.right, replacement.value)
+            self.cnt = self.cnt + 1
+
         return node
 
     def to_list(self):
@@ -91,7 +99,7 @@ class BinaryTree:
         return current.value
 
     def count(self):
-        return len(self.to_list())
+        return self.cnt
 
 
 if __name__ == '__main__':
@@ -106,12 +114,15 @@ if __name__ == '__main__':
     print('Найбільший елемент:', tree.maximum())
     print('Кількість елементів:', tree.count())
 
-    tree.delete(20)  # без дітей
-    print('Після видалення 20:', tree.to_list())
+    tree.delete(70)  # без дітей
+    print('Після видалення 70:', tree.to_list())
+    print('Кількість елементів:', tree.count())
     tree.delete(60)  # одна дитина (65)
     print('Після видалення 60:', tree.to_list())
+    print('Кількість елементів:', tree.count())
     tree.delete(50)  # двоє дітей (корінь)
     print('Після видалення 50:', tree.to_list())
+    print('Кількість елементів:', tree.count())
     tree.delete(999)  # відсутній елемент
     print('Після видалення 999:', tree.to_list())
     print('Кількість після видалень:', tree.count())
