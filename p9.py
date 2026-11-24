@@ -10,26 +10,39 @@ def generate(n):
     return np.random.randint(-10000, 10001, n, dtype=np.int16)
 
 
-# Сортування підрахунком
+# Counting Sort Функція by_sort().
+# Підраховує кількість повторень кожного числа.
+# Формує відсортований масив у порядку спадання.
+# Повертає шостий елемент.
+# Складність: O(n + k).
+
 @njit
 def by_sort(a):
-    counts = np.zeros(20001, dtype=np.int64)
+    # counts = np.zeros(20001, dtype=np.int64)
+    #
+    # for x in a:
+    #     counts[x + 10000] += 1
+    #
+    # result = np.empty(len(a), dtype=np.int16)
+    # p = 0
+    #
+    # for i in range(20000, -1, -1):
+    #     for j in range(counts[i]):
+    #         result[p] = i - 10000
+    #         p += 1
+    result = sorted(a)
+    print(result[-6])
 
-    for x in a:
-        counts[x + 10000] += 1
-
-    result = np.empty(len(a), dtype=np.int16)
-    p = 0
-
-    for i in range(20000, -1, -1):
-        for j in range(counts[i]):
-            result[p] = i - 10000
-            p += 1
-
-    return result[5]
+    return result[-6]
 
 
-# Зберігання шести найбільших елементів
+# Збе2. Зберігання шести найбільших елементів (Top-K)
+# Функція by_top().
+# Створює додатковий масив із шести елементів.
+# Перебирає всі числа основного масиву.
+# Якщо число більше за найменше в додатковому масиві, вставляє його на відповідну позицію.
+# Повертає шостий елемент.
+# Складність: O(n).
 @njit
 def by_top(a):
     top = np.full(6, -10001, dtype=np.int16)
@@ -47,7 +60,13 @@ def by_top(a):
     return top[5]
 
 
-# Шестиразовий пошук максимуму
+# Функція by_max().
+# Знаходить найбільший елемент.
+# Замінює його на −10 001.
+# Повторює цю операцію шість разів.
+# Повертає останній знайдений максимум.
+# Складність: O(6n) = O(n).
+
 @njit
 def by_max(a):
     b = a.copy()
@@ -99,7 +118,8 @@ def main():
                 result, elapsed = measure(method, a)
                 times[i].append(elapsed)
                 results.append(result)
-
+            print(len(set(results)))
+            print(set(results))
             assert len(set(results)) == 1
 
             print(f"Запуск №{run + 1}:")
